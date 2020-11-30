@@ -44,6 +44,61 @@
 		</taxon>
 	</taxa>
 
+	<exponentialGrowth id="exponential" units="years">
+		<populationSize>
+			<parameter id="exponential.popSize" value="1.0" lower="0.0"/>
+		</populationSize>
+		<growthRate>
+			<parameter id="exponential.growthRate" value="0.0"/>
+		</growthRate>
+	</exponentialGrowth>
+
+	<!-- Generate a random starting tree under the coalescent process            -->
+	<coalescentSimulator id="startingTree">
+		<taxa idref="taxa"/>
+		<exponentialGrowth idref="exponential"/>
+	</coalescentSimulator>
+
+	<treeModel id="treeModel">
+		<newick idref="startingTree"/>
+		<rootHeight>
+			<parameter id="treeModel.rootHeight"/>
+		</rootHeight>
+		<nodeHeights internalNodes="true">
+			<parameter id="treeModel.internalNodeHeights"/>
+		</nodeHeights>
+		<nodeHeights internalNodes="true" rootNode="true">
+			<parameter id="treeModel.allInternalNodeHeights"/>
+		</nodeHeights>
+	</treeModel>
+
+	<multivariateDiffusionModel id="diffusionModel">
+		<precisionMatrix>
+			<matrixParameter id="precision.mat">
+				<parameter id="precision" value="0.05"/>
+			</matrixParameter>
+		</precisionMatrix>
+	</multivariateDiffusionModel>
+
+	<traitDataLikelihood id="traitLikelihood" useTreeLength="true" scaleByTime="true" reciprocalRates="false" integrateInternalTraits="true" cacheBranches="true">
+		<multivariateDiffusionModel idref="diffusionModel"/>
+		<treeModel idref="treeModel"/>
+		<traitParameter>
+			<fastMatrixParameter id="randomEffects" rows="1" columns="1610" test="true" signalComponents="false"/>
+		</traitParameter>
+		<jitter window="0.05" duplicatesOnly="false">
+			<parameter idref="randomEffects"/>
+		</jitter>
+		<conjugateRootPrior>
+			<meanParameter>
+				<parameter value="0.0"/>
+			</meanParameter>
+			<priorSampleSize>
+				<parameter value="0.001"/>
+			</priorSampleSize>
+		</conjugateRootPrior>
+	</traitDataLikelihood>
+
     <hawkesLikelihood id="hawkesLikelihood" hphDimension="2"  timeTrait="dateDecimal" locationTrait="Deff_2">
     	<times>
     		<taxa idref="taxa"/>
