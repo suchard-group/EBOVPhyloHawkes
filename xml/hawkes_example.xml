@@ -5,42 +5,52 @@
 		<taxon id="p1.time">
 			<attr name="dateDecimal">1</attr>
 			<attr name="Deff_2">-3.162629347 0.380396808 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p2.time">
 			<attr name="dateDecimal">2</attr>
 			<attr name="Deff_2">-3.162629347 0.380396808 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p3.time">
 			<attr name="dateDecimal">3</attr>
 			<attr name="Deff_2">-0.888754177 -2.105695221 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p4.time">
 			<attr name="dateDecimal">4</attr>
 			<attr name="Deff_2">-0.888754177 -2.105695221 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p5.time">
 			<attr name="dateDecimal">5</attr>
 			<attr name="Deff_2">-0.888754177 -2.105695221 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p6.time">
 			<attr name="dateDecimal">6</attr>
 			<attr name="Deff_2">2.329429317 -0.339018347 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p7.time">
 			<attr name="dateDecimal">7</attr>
 			<attr name="Deff_2">6.632645669 -0.576121462 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p8.time">
 			<attr name="dateDecimal">8</attr>
 			<attr name="Deff_2">-2.786062946 -1.202535113 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p9.time">
 			<attr name="dateDecimal">9</attr>
 			<attr name="Deff_2">2.329429317 -0.339018347 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 		<taxon id="p10.time">
 			<attr name="dateDecimal">10</attr>
 			<attr name="Deff_2">-1.549236912 -0.561964482 1 1 1 1</attr>
+			<attr name="rate">1.0</attr>
 		</taxon>
 	</taxa>
 
@@ -70,6 +80,9 @@
 		<nodeHeights internalNodes="true" rootNode="true">
 			<parameter id="treeModel.allInternalNodeHeights"/>
 		</nodeHeights>
+		<nodeTraits rootNode="false" internalNodes="false" leafNodes="true" traitDimension="1" name="rate" asMatrix="true">
+			<parameter id="randomRates"/>
+		</nodeTraits>
 	</treeModel>
 
 	<multivariateDiffusionModel id="diffusionModel">
@@ -80,14 +93,15 @@
 		</precisionMatrix>
 	</multivariateDiffusionModel>
 
-	<traitDataLikelihood id="traitLikelihood" useTreeLength="true" scaleByTime="true" reciprocalRates="false" integrateInternalTraits="true" cacheBranches="true">
+	<traitDataLikelihood id="traitLikelihood" traitName="rate" useTreeLength="true" scaleByTime="true" reciprocalRates="false" integrateInternalTraits="true" cacheBranches="true">
 		<multivariateDiffusionModel idref="diffusionModel"/>
 		<treeModel idref="treeModel"/>
 		<traitParameter>
-			<fastMatrixParameter id="randomEffects" rows="1" columns="1610" test="true" signalComponents="false"/>
+<!-- 			<fastMatrixParameter idref="randomEffects" rows="1" columns="1610" test="true" signalComponents="false"/> -->
+			<fastMatrixParameter idref="randomRates"/>
 		</traitParameter>
 		<jitter window="0.05" duplicatesOnly="false">
-			<parameter idref="randomEffects"/>
+			<parameter idref="randomRates"/>
 		</jitter>
 		<conjugateRootPrior>
 			<meanParameter>
