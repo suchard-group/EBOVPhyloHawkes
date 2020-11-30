@@ -98,7 +98,7 @@
 		<treeModel idref="treeModel"/>
 		<traitParameter>
 <!-- 			<fastMatrixParameter idref="randomEffects" rows="1" columns="1610" test="true" signalComponents="false"/> -->
-			<fastMatrixParameter idref="randomRates"/>
+			<parameter idref="randomRates"/>
 		</traitParameter>
 		<jitter window="0.05" duplicatesOnly="false">
 			<parameter idref="randomRates"/>
@@ -117,6 +117,9 @@
     	<times>
     		<taxa idref="taxa"/>
     	</times>
+    	<randomRates>
+    		<parameter idref="randomRates"/>
+    	</randomRates>
         <locations>
 			<fastMatrixParameter id="locations" rows="2" columns="10" signalComponents="false">
 				<parameter id="p1.loc" value="0.7533110462177826  2.1500426178447376"/>
@@ -152,7 +155,26 @@
     </hawkesLikelihood>
     
     <report>
+    	HawkesLikelihood: 
 	    <hawkesLikelihood idref="hawkesLikelihood"/>
+    </report>
+
+    <hawkesGradient id="hawkesLocationGradient" wrt="locations">
+    	<hawkesLikelihood idref="hawkesLikelihood"/>
+    </hawkesGradient>
+
+    <report>
+    	Hawkes location gradient
+    	<hawkesGradient idref="hawkesLocationGradient"/>
+    </report>
+
+    <hawkesGradient id="hawkesRateGradient" wrt="randomRates">
+    	<hawkesLikelihood idref="hawkesLikelihood"/>
+    </hawkesGradient>
+
+    <report>
+    	Hawkes rate gradient
+    	<hawkesGradient idref="hawkesRateGradient"/>
     </report>
     
     <operators id="operators" optimizationSchedule="log">
