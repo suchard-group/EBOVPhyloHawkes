@@ -13,11 +13,12 @@ def main():
 				if(re.match('(.*)</taxa>(.*)', s)):
 					outfile.write(s)
 					outfile.write('\n\t<taxa id="taxa2">\n')
-					i += 1
+					i -= 2
 					for k in range(0,len(x)):
 						outfile.write('\t\t<taxon idref=\"'+x[k]+'\"/>\n')
-						i += 1
+						i -= 1
 					outfile.write('\t</taxa>\n')
+					i -= 1
 				else:
 					outfile.write(s)
 
