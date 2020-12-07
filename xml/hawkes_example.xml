@@ -54,6 +54,14 @@
 		</taxon>
 	</taxa>
 
+	<taxa id="taxa2">
+		<taxon idref="p1.time"/>
+		<taxon idref="p2.time"/>
+		<taxon idref="p3.time"/>
+		<taxon idref="p4.time"/>
+		<taxon idref="p5.time"/>
+	</taxa>
+
 	<exponentialGrowth id="exponential" units="years">
 		<populationSize>
 			<parameter id="exponential.popSize" value="1.0" lower="0.0"/>
@@ -112,6 +120,31 @@
 			</priorSampleSize>
 		</conjugateRootPrior>
 	</traitDataLikelihood>
+
+	<fullyConjugateTreeTipsPotentialDerivative id="traitGradient">
+		<traitDataLikelihood idref="traitLikelihood"/>
+		<parameter idref="randomRates"/>
+	</fullyConjugateTreeTipsPotentialDerivative>
+
+	<report>
+		trait gradient:
+		<fullyConjugateTreeTipsPotentialDerivative idref="traitGradient"/>
+	</report>
+
+
+	<parameter id="mask" value="1 1 1 1 1 0 0 0 0 0"/>
+
+	<maskedGradient id="maskedTraitGradient">
+		<fullyConjugateTreeTipsPotentialDerivative idref="traitGradient"/>
+		<mask>
+			<parameter idref="mask"/>
+		</mask>
+	</maskedGradient>
+	
+	<report>
+		<maskedGradient idref="maskedTraitGradient"/>
+	</report>
+
 
     <hawkesLikelihood id="hawkesLikelihood" hphDimension="2"  timeTrait="dateDecimal" locationTrait="Deff_2">
     	<times>
