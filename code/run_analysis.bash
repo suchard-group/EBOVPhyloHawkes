@@ -1,0 +1,2 @@
+#java -jar -Djava.library.path=/usr/lib/jvm -Dhph.library.path=/Users/homefolder/hawkes/build -Dhph.threads=2 -Dhph.required.flags=20 -Dhph.resource=3 /Users/homefolder/beast-mcmc/build/dist/beast.jar  -seed 666 -overwrite /Users/homefolder/EBOVPhyloHawkes/xml/Makona_1610_Hawkes_v6.xml
+java -jar -Djava.library.path=/usr/lib/jvm -Dhph.library.path=/Users/homefolder/hawkes/build -Dhph.threads=2 -Dhph.required.flags=0 /Users/homefolder/beast-mcmc/build/dist/beast.jar  -seed 666 -overwrite /Users/homefolder/EBOVPhyloHawkes/xml/Makona_1610_Hawkes_v6.xml
