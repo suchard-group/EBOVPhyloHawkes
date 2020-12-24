@@ -31,8 +31,8 @@ gg1 <- gg + geom_point(data=data.frame(x=unlist(Locs[[R]][,1]),
                                        y=unlist(Locs[[R]][,2])),
                        alpha=0.5, color="red2",
                        aes(x=x,y=y),inherit.aes = FALSE) +
-  annotate(geom = "label",fontface="bold",label="Guinea",x=-11,y=11,label.size=0.5) +
-  annotate(geom = "label",fontface="bold",label="Sierra\nLeone",x=-13.5,y=7.5,label.size=0.5)+
-  annotate(geom = "label",fontface="bold",label="Liberia",x=-8.3,y=5.8,label.size=0.5)+
+  annotate(geom = "text",fontface="bold",label="Guinea",x=-11.1,y=11,size=6) +
+  annotate(geom = "text",fontface="bold",color="white",label="Sierra\nLeone",x=-13.7,y=7.5,size=6)+
+  annotate(geom = "text",fontface="bold",label="Liberia",x=-8.6,y=5.8,size=6)+
   theme_nothing()
 gg1
