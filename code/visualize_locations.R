@@ -4,15 +4,20 @@ library(readr)
 library(ggmap)
 register_google(key = "AIzaSyDzICiKTM1TA0Ux4bcBXFiwd1_1OMbizcg")
 
-df <- read_table2("output/Makona_1610_Hawkes_Locations_Prior.log", skip = 3)
-P  <- dim(df)[2]
+df <- read_table2("output/locations.log", skip = 3)
 R  <- dim(df)[1]
-N  <- 1366 # number of locations
-df <- df[,(P+1-2*N):P]
-Locs <- list()
-for (i in 1:R) {
-  Locs[[i]] <- matrix(df[i,], byrow=TRUE, ncol=2) 
-}
+df2 <- df[,-1]
+
+Locs <- matrix(df2[R,], byrow=TRUE, ncol=2) 
+readRDS("data/originalOrderDates.rds") # df3
+# temporary fix remove one line
+Locs <- Locs[-1,] # TODO: investigate
+df3 <- df3[order(df3$dateDecimal),]
+df3$Sequenced <- factor(df3$Sequenced)
+df4 <- data.frame(x=unlist(Locs[,1]),y=unlist(Locs[,2]),
+                  Sequenced=df3$Sequenced)
+
+df4 <- df4[order(df4$Sequenced,decreasing = TRUE),]
 
 # get map
 bb <- c(left=-17.5,
@@ -27,12 +32,14 @@ bg <- get_stamenmap(bbox = bb,
                            #maptype="toner-2010")
 gg <- ggmap(bg) 
 
-gg1 <- gg + geom_point(data=data.frame(x=unlist(Locs[[R]][,1]),
-                                       y=unlist(Locs[[R]][,2])),
-                       alpha=0.5, color="red2",
-                       aes(x=x,y=y),inherit.aes = FALSE) +
-  annotate(geom = "text",fontface="bold",label="Guinea",x=-11.1,y=11,size=6) +
-  annotate(geom = "text",fontface="bold",color="white",label="Sierra\nLeone",x=-13.7,y=7.5,size=6)+
-  annotate(geom = "text",fontface="bold",label="Liberia",x=-8.6,y=5.8,size=6)+
+gg1 <- gg + geom_point(data=df4,
+                       alpha=1, size=0.1,
+                       aes(x=x,y=y,color=Sequenced),inherit.aes = FALSE) +
+  annotate(geom = "text",fontface="bold",label="Guinea",x=-11.1,y=11,size=3) +
+  annotate(geom = "text",fontface="bold",color="white",label="Sierra\nLeone",x=-13.7,y=7.5,size=3)+
+  annotate(geom = "text",fontface="bold",label="Liberia",x=-8.3,y=5.5,size=3)+
   theme_nothing()
 gg1
+
+ggsave("figures/LocationsPlot.png",gg1,device="png",width = 4,height = 3)
+
