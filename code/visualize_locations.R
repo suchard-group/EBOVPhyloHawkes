@@ -9,9 +9,10 @@ R  <- dim(df)[1]
 df2 <- df[,-1]
 
 Locs <- matrix(df2[R,], byrow=TRUE, ncol=2) 
-readRDS("data/originalOrderDates.rds") # df3
+df3 <- readRDS("data/originalOrderDates.rds") # df3
 # temporary fix remove one line
-Locs <- Locs[-1,] # TODO: investigate
+#Locs <- Locs[-1,] # TODO: investigate
+df3 <- df3[-1,]
 df3 <- df3[order(df3$dateDecimal),]
 df3$Sequenced <- factor(df3$Sequenced)
 df4 <- data.frame(x=unlist(Locs[,1]),y=unlist(Locs[,2]),

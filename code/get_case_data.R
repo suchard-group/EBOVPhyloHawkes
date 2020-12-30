@@ -36,7 +36,7 @@ df <- df[df$Numeric > 0,]
 df$year <- str_match(df$`Epi week`,"\\(\\s*(.*?)\\s*\\-")[,2]
 df$year <- as.numeric(df$year)
 df$week <- str_match(df$`Epi week`,"\\-W\\s*(.*?)\\s*\\)")[,2]
-df$week <- as.numeric(df$week)/52
+df$week <- ((as.numeric(df$week)+1)/52)
 df$dateDecimal <- df$year + df$week
 
 #
