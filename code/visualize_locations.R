@@ -104,7 +104,9 @@ gg2 <- ggplot(data=df2,aes(x=dateDecimal,y=..count..,
                                      fill=`Viral RNA`,color=`Viral RNA`)) +
   geom_histogram(alpha=0.5) +
   ylab("Count") + xlab("Year") +
-  theme_classic()
+  theme_classic() +
+  theme(legend.justification = c("right", "top"),
+        legend.position = c(.9, .95))
 gg2
 
 
