@@ -43,8 +43,8 @@ df$Colors <- factor(df$Colors)
 
 gg <- ggplot(df,aes(x=Time,y=Displacements,color=Colors))+
   geom_segment(x = 0,y=0,yend=0,xend=max(Time),color="black") +
-  geom_line(size=1.5,alpha=0.8) +
-  scale_color_manual(values=c("steelblue3","tan4","yellowgreen","purple4","firebrick2","gold2")) +
+  geom_line(size=1.5,alpha=1) +
+  scale_color_manual(values=c("#5a8ba0","#845d36","#81a66c","#532383","#b63129","#afa750")) +
   theme_void()+
   theme(legend.position = "none") 
 gg
