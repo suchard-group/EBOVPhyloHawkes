@@ -26,7 +26,7 @@ df$Sequenced <- factor(df$Sequenced)
 df4 <- data.frame(x=unlist(Locs[,1]),y=unlist(Locs[,2]),Rate=unlist(df$Rate),
                   Sequenced=df$Sequenced,Year=df$dateDecimal)
 
-df4 <- df4[order(df4$Rate,decreasing = FALSE),]
+#df4 <- df4[order(df4$Rate,decreasing = FALSE),]
 
 # get map
 # bb <- c(left=-17.5,
@@ -76,6 +76,8 @@ pal <- wes_palette("Zissou1", 100, type = "continuous")
 
 gg <- ggplot(data = world) + geom_sf(fill= "antiquewhite") +
   geom_point(data=df4[df4$Sequenced=="Sequenced",], size=1,
+             aes(x=x,y=y,color=Rate),inherit.aes = FALSE) +
+  geom_point(data=df4[df4$Sequenced=="Sequenced"&df4$Rate>1.24,], size=1,
              aes(x=x,y=y,color=Rate),inherit.aes = FALSE) +
   scale_color_gradientn(colours = pal) + 
   annotate(geom = "text",fontface="bold",label="Guinea",x=-10.7,y=11.5,size=4) +
