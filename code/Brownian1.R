@@ -48,10 +48,14 @@ Displacements <- c(expfun*abs(redPath[length(redPath)]-lowest)+redPath[length(re
                    expfun*abs(yellowPath[length(yellowPath)]-lowest)+yellowPath[length(yellowPath)],
                    expfun*abs(purplePath[length(purplePath)]-lowest)+purplePath[length(purplePath)],
                    expfun*abs(greenPath[length(greenPath)]-lowest)+greenPath[length(greenPath)])
-Time <- c( (max(df$Time[df$Colors=="Red"])+1):(max(df$Time[df$Colors=="Red"])+6000),
-           (max(df$Time[df$Colors=="Yellow"])+1):(max(df$Time[df$Colors=="Yellow"])+6000),
-           (max(df$Time[df$Colors=="Purple"])+1):(max(df$Time[df$Colors=="Purple"])+6000),
-           (max(df$Time[df$Colors=="Green"])+1):(max(df$Time[df$Colors=="Green"])+6000))
+Time <- c( seq(from=max(df$Time[df$Colors=="Red"])+1,
+           to=(max(df$Time[df$Colors=="Red"])+12000),length.out=6000),
+           seq(from=max(df$Time[df$Colors=="Yellow"])+1,
+               to=(max(df$Time[df$Colors=="Yellow"])+12000),length.out=6000),
+           seq(from=max(df$Time[df$Colors=="Purple"])+1,
+               to=(max(df$Time[df$Colors=="Purple"])+12000),length.out=6000),
+           seq(from=max(df$Time[df$Colors=="Green"])+1,
+               to=(max(df$Time[df$Colors=="Green"])+12000),length.out=6000))
 Colors <- c(rep("Red",6000),
             rep("Yellow",6000),
             rep("Purple",6000),
@@ -68,4 +72,46 @@ gg <- ggplot(df3,aes(x=Time,y=Displacements,color=Colors))+
   theme(legend.position = "none") 
 gg
 
-  
+ggsave("figures/brownianMotion.png",device = "png", width = 5, height = 3)
+
+
+# rates figure
+d <- 1000
+Displacements <- Displacements + abs(min(Displacements))
+Time <- c( round(seq.int(from=max(df$Time[df$Colors=="Red"])-d+1,
+               to=(max(df$Time[df$Colors=="Red"])+12000-d),length.out = 6000)),
+           round(seq.int(from=max(df$Time[df$Colors=="Yellow"])+1-d,
+               to=(max(df$Time[df$Colors=="Yellow"])+12000-d),length.out = 6000)),
+           round(seq.int(from=max(df$Time[df$Colors=="Purple"])+1-d,
+               to=(max(df$Time[df$Colors=="Purple"])+12000-d),length.out = 6000)),
+           round(seq.int(from=max(df$Time[df$Colors=="Green"])+1-d,
+               to=(max(df$Time[df$Colors=="Green"])+12000-d),length.out = 6000)))
+Colors <- c(rep("Red",6000),
+            rep("Yellow",6000),
+            rep("Purple",6000),
+            rep("Green",6000))
+# Time2 <- min(Time):max(Time)
+# Colors2 <- rep("Black",length(Time2))
+#   
+df4 <- data.frame(Displacements,Time,Colors)
+df4$Colors <- factor(df4$Colors)
+df4 <- dplyr::distinct(df4,Time,Colors,.keep_all=TRUE)
+df4$Time[df4$Time %% 2 == 0] <- df4$Time[df4$Time %% 2 == 0] - 1
+
+
+df5 <- aggregate(Displacements~Time,data=df4,sum) 
+df5$Colors <- "Black"
+#df6 <- merge(df4,df5)
+df5 <- df5[,c("Displacements","Time","Colors")]
+df5$Time <- df5$Time - 1000
+df5$Displacements <- df5$Displacements + 200
+df6 <- rbind(df4,df5)
+
+gg <- ggplot(df6,aes(x=Time,y=Displacements,color=Colors))+
+  geom_line(size=1.5,alpha=1) +
+  scale_color_manual(values=c("#81a66c","#532383","#b63129","#afa750","black")) +
+  theme_void()+
+  theme(legend.position = "none") 
+gg
+
+ggsave("figures/additiveRate.png",device="png",width = 5,height=3)
