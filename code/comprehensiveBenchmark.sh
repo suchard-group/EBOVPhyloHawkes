@@ -16,4 +16,4 @@ for t in 1 2 4 6 8 10 12 14 16 18 20; do
 done
 
 # gpu
-./benchmark --locations 25000 --dimension 2 --iterations 10 --gpu 2
+./benchmark --locations 25000 --dimension 2 --iterations 10 --gpu 1
