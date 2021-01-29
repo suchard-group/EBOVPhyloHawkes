@@ -8,10 +8,10 @@ df <- read_table2("output/locations.log", skip = 3)
 R  <- dim(df)[1]
 df2 <- df[,-1]
 
-Locs <- matrix(df2[R,], byrow=TRUE, ncol=2) 
+Locs <- matrix(df2[R-1,], byrow=TRUE, ncol=2) 
 
 # get rates
-df <- read_table2("output/randomRates.log", skip = 3) # randomRates not ordered by date!
+df <- read_table2("output/randomRates_Run1.log", skip = 3) # randomRates not ordered by date!
 R  <- dim(df)[1]
 df2 <- df[,-1]
 
@@ -20,7 +20,7 @@ df <- readRDS("data/originalOrderDates.rds") # df3
 # temporary fix remove one line
 #Locs <- Locs[-1,] # TODO: investigate
 df <- df[-1,]
-df$Rate <- unlist(df2[R,])
+df$Rate <- unlist(colMeans(df2[400:R,]))
 df <- df[order(df$dateDecimal),]
 df$Sequenced <- factor(df$Sequenced)
 df4 <- data.frame(x=unlist(Locs[,1]),y=unlist(Locs[,2]),Rate=unlist(df$Rate),
@@ -77,7 +77,7 @@ pal <- wes_palette("Zissou1", 100, type = "continuous")
 gg <- ggplot(data = world) + geom_sf(fill= "antiquewhite") +
   geom_point(data=df4[df4$Sequenced=="Sequenced",], size=1,
              aes(x=x,y=y,color=Rate),inherit.aes = FALSE) +
-  geom_point(data=df4[df4$Sequenced=="Sequenced"&df4$Rate>1.24,], size=1,
+  geom_point(data=df4[df4$Sequenced=="Sequenced"&df4$Rate>1.1,], size=1,
              aes(x=x,y=y,color=Rate),inherit.aes = FALSE) +
   scale_color_gradientn(colours = pal) + 
   annotate(geom = "text",fontface="bold",label="Guinea",x=-10.7,y=11.5,size=4) +
@@ -89,7 +89,7 @@ gg <- ggplot(data = world) + geom_sf(fill= "antiquewhite") +
                          style = north_arrow_fancy_orienteering) +
   coord_sf(xlim = c(-17.5, -5.3), ylim = c(3.5, 13), expand = FALSE) +
   xlab("Longitude") + ylab("Latitude") +
-  ggtitle("Inferred rates for RNA-sequenced Ebola viruses") +
+  ggtitle("Posterior mean rates for RNA-sequenced Ebola viruses") +
   theme(panel.grid.major = element_line(color = gray(.5),
                                         linetype = "dashed", size = 0.5),
         panel.background = element_rect(fill = "aliceblue"),
@@ -117,7 +117,7 @@ gg2 <- ggplot(data=df4[df4$Sequenced=="Sequenced",],aes(x=Year,y=Rate,color=Rate
   ylab("Virus-specific propagation rate") + xlab("Year") +
   theme_classic() +
   theme(legend.justification = c("right", "top"),
-        legend.position = c(.9, .95),
+        legend.position = c(.95, .95),
         legend.background=element_blank())
 gg2
 
