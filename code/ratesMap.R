@@ -17,9 +17,7 @@ df2 <- df[,-1]
 
 # order so extremes are on top of figure
 df <- readRDS("data/originalOrderDates.rds") # df3
-# temporary fix remove one line
-#Locs <- Locs[-1,] # TODO: investigate
-df <- df[-dim(df)[1],]
+df <- df[-1,] # remove unincluded sequenced taxon EBOV|MK2008|KU296526|SLE|WesternUrban|2015-02-12
 df$Rate <- unlist(colMeans(df2[400:R,]))
 df <- df[order(df$dateDecimal),]
 df$Sequenced <- factor(df$Sequenced)
