@@ -19,7 +19,7 @@ df2 <- df[,-1]
 df <- readRDS("data/originalOrderDates.rds") # df3
 # temporary fix remove one line
 #Locs <- Locs[-1,] # TODO: investigate
-df <- df[-1,]
+df <- df[-dim(df)[1],]
 df$Rate <- unlist(colMeans(df2[400:R,]))
 df <- df[order(df$dateDecimal),]
 df$Sequenced <- factor(df$Sequenced)
@@ -117,7 +117,7 @@ gg2 <- ggplot(data=df4[df4$Sequenced=="Sequenced",],aes(x=Year,y=Rate,color=Rate
   ylab("Virus-specific propagation rate") + xlab("Year") +
   theme_classic() +
   theme(legend.justification = c("right", "top"),
-        legend.position = c(.95, .95),
+        legend.position = c(.98, .95),
         legend.background=element_blank())
 gg2
 
