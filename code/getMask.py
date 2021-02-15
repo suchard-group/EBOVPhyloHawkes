@@ -4603,3 +4603,7 @@ if __name__ == '__main__':
     mask = ['1' if taxon in taxa2 else '0' for taxon in nodes]
     with open('../data/mask.txt', 'w+') as f:
         f.write(' '.join(mask))
+    
+    with_locations = [taxon for taxon in nodes if taxon in taxa2]
+    with open('../data/nodes_with_locations_ordered_by_tree.txt', 'w+') as f:
+        f.write('\n'.join(with_locations))
