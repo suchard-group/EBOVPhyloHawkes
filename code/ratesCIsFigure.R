@@ -2,11 +2,11 @@ setwd("~/EBOVPhyloHawkes/")
 
 library(ggplot2)
 
-df <- readr::read_table2("output/Makona_1610_Hawkes_Locations_Prior_Run1.log", 
+df <- readr::read_table2("output/Makona_1610_Hawkes_Locations_GLM.log", 
                          skip = 3)
 d1 <- dim(df)[1]
 d2 <- dim(df)[2]
-df <- df[1000:d1,12:d2]
+df <- df[,13:d2]
 
 means <- apply( df , 2 , quantile , probs = 0.5)
 lower <- apply( df , 2 , quantile , probs = 0.025)
@@ -24,7 +24,7 @@ gg <- ggplot(df2,aes(x=Virus,y=means,color=Significant)) +
   scale_color_manual(values = c(pal[1],pal[100])) +
   geom_point(color="black") +
   ylab("Rate") + xlab("Viral observation") +
-  ggtitle("95% Credible intervals and posterior medians for 1,366 virus-specific rates") +
+  ggtitle("95% Credible intervals and posterior medians for 1,367 virus-specific rates") +
   theme(axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 gg
