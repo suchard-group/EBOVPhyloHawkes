@@ -2,7 +2,6 @@ setwd("~/EBOVPhyloHawkes/")
 
 library(readr)
 library(ggmap)
-register_google(key = "AIzaSyDzICiKTM1TA0Ux4bcBXFiwd1_1OMbizcg")
 
 df <- read_table2("output/locations.log", skip = 3)
 R  <- dim(df)[1]
