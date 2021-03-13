@@ -2,23 +2,23 @@ setwd("~/EBOVPhyloHawkes/")
 
 library(readr)
 library(ggmap)
-register_google(key = "AIzaSyDzICiKTM1TA0Ux4bcBXFiwd1_1OMbizcg")
 
-df <- read_table2("output/locations.log", skip = 3)
-R  <- dim(df)[1]
-df2 <- df[,-1]
-
-Locs <- matrix(df2[R-1,], byrow=TRUE, ncol=2) 
+# df <- read_table2("output/locations.log", skip = 3)
+# R  <- dim(df)[1]
+# df2 <- df[,-1]
+# Locs <- matrix(df2[R,], byrow=TRUE, ncol=2) 
+#saveRDS(Locs,file = "fixedLocations.rds")
+Locs <- readRDS("output/fixedLocations.rds")
 
 # get rates
-df <- read_table2("output/randomRates_Run1.log", skip = 3) # randomRates not ordered by date!
-R  <- dim(df)[1]
-df2 <- df[,-1]
+df <- read_table2("output/Makona_1610_Hawkes_Locations_GLM.log", skip = 3)
+d1  <- dim(df)[1]
+d2 <- dim(df)[2]
+df2 <- df[,13:d2]
+df2 <- cbind(df2,matrix(1,d1,21811))
 
-# order so extremes are on top of figure
-df <- readRDS("data/originalOrderDates.rds") # df3
-df <- df[-1,] # remove unincluded sequenced taxon EBOV|MK2008|KU296526|SLE|WesternUrban|2015-02-12
-df$Rate <- unlist(colMeans(df2[400:R,]))
+df <- readRDS("data/originalOrderDates.rds") 
+df$Rate <- unlist(colMeans(df2))
 df <- df[order(df$dateDecimal),]
 df$Sequenced <- factor(df$Sequenced)
 df4 <- data.frame(x=unlist(Locs[,1]),y=unlist(Locs[,2]),Rate=unlist(df$Rate),
@@ -75,7 +75,7 @@ pal <- wes_palette("Zissou1", 100, type = "continuous")
 gg <- ggplot(data = world) + geom_sf(fill= "antiquewhite") +
   geom_point(data=df4[df4$Sequenced=="Sequenced",], size=1,
              aes(x=x,y=y,color=Rate),inherit.aes = FALSE) +
-  geom_point(data=df4[df4$Sequenced=="Sequenced"&df4$Rate>1.1,], size=1,
+  geom_point(data=df4[df4$Sequenced=="Sequenced"&df4$Rate>1.3,], size=1,
              aes(x=x,y=y,color=Rate),inherit.aes = FALSE) +
   scale_color_gradientn(colours = pal) + 
   annotate(geom = "text",fontface="bold",label="Guinea",x=-10.7,y=11.5,size=4) +
@@ -115,8 +115,8 @@ gg2 <- ggplot(data=df4[df4$Sequenced=="Sequenced",],aes(x=Year,y=Rate,color=Rate
   ylab("Virus-specific propagation rate") + xlab("Year") +
   theme_classic() +
   theme(legend.justification = c("right", "top"),
-        legend.position = c(.98, .95),
-        legend.background=element_blank())
+        legend.position = c(1, 1),
+        legend.background=element_rect(fill="white", linetype="solid"))
 gg2
 
 
