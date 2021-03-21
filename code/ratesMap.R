@@ -10,11 +10,13 @@ library(ggmap)
 #saveRDS(Locs,file = "fixedLocations.rds")
 Locs <- readRDS("output/fixedLocations.rds")
 
-# get rates
-df <- read_table2("output/Makona_1610_Hawkes_Locations_GLM.log", skip = 3)
+# # get rates
+# df <- read_table2("output/Makona_1610_Hawkes_Locations_GLM.log", skip = 3)
+df <- readRDS("output/thinnedSample.rds")
+
 d1  <- dim(df)[1]
 d2 <- dim(df)[2]
-df2 <- df[,13:d2]
+df2 <- df[,9:d2]
 df2 <- cbind(df2,matrix(1,d1,21811))
 
 df <- readRDS("data/originalOrderDates.rds") 
