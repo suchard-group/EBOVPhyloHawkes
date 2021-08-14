@@ -1,0 +1,1 @@
+java -jar -Djava.library.path=/usr/lib/jvm -Dhph.library.path=/home/andrew/hawkes/build -Dhph.required.flags=20 -Dhph.resource=3 /home/andrew/beast-mcmc/build/dist/beast.jar -beagle_gpu -beagle_order 1  -seed 666 -save_state checkpoint.state.final3 -save_every 100000 -load_state checkpoint.state.final2 -force_resume  -overwrite /home/andrew/EBOVPhyloHawkes/xml/Final3.xml
