@@ -6,9 +6,14 @@ cd hawkes/build/
 	
 	# sse
 	./benchmark --locations 25000 --dimension 2 --iterations 10 --sse
+	
+	./benchmark --tbb 1 --locations 25000 --dimension 2 --iterations 10 --avx
+
+	./benchmark --tbb 2 --locations 25000 --dimension 2 --iterations 10 --avx
+
 
 # (AVX, SSE, NO SIMD) x threads + gpu
-for t in 1 2 4 6 8 10 12 14 16 18 20; do
+for t in {4..104..10}; do
 	
 	# avx
 	./benchmark --tbb $t --locations 25000 --dimension 2 --iterations 10 --avx
