@@ -26,7 +26,7 @@ gg_color_hue <- function(n) {
 ###################################################################
 
 library(wesanderson)
-colors <- wes_palette("Zissou1", 12, type = "continuous")
+colors <- wes_palette("Zissou1", 14, type = "continuous")
 
 
 # get R time for 25k points
@@ -96,8 +96,11 @@ gg
 #        width = 6,height=4)
 
 
+df <- read.table("~/EBOVPhyloHawkes/output/report.txt", quote="\"", comment.char="")
+
+
 time_by_N <- df[df$V4!=25000,]
-time_by_N <- time_by_N[,-c(1,3,5,7,8,9)]
+time_by_N <- time_by_N[,-c(1,3,5,7,8,9,11)]
 colnames(time_by_N) <- c('Cores',
                          'N',
                          'its',
@@ -125,20 +128,64 @@ df <- df[,-3]
 
 df$Cores <- revalue(df$Cores, c("0"="GPU"))
 df$Threads <- factor(df$Cores)
-df$Threads = factor(df$Cores,levels(df$Cores)[c(2:12,1)])
+df$Threads = factor(df$Cores,levels(df$Cores)[c(2:14,1)])
 
 
 gg2 <- ggplot(df,aes(x=N,y=Seconds,color=Threads)) +
   geom_smooth(se=FALSE) +
   scale_color_manual(values = colors)+
-  ylab('Seconds per evaluation') +
+  ylab('Seconds per gradient evaluation') +
   xlab('Number of observations')+
   coord_cartesian(ylim=c(0,60),xlim=c(10000,85000)) +
   #scale_x_continuous(labels=c("0","3.1e+06","1.3e+07","2.8e+07","5e+07"))+
   theme_classic()  
 gg2
 
+df <- read.table("~/EBOVPhyloHawkes/output/report.txt", quote="\"", comment.char="")
 
-ggsave('performFigure.pdf',grid.arrange(gg,gg2,ncol=2) , device = 'pdf', path = 'figures/',
+
+time_by_N <- df[df$V4!=25000,]
+time_by_N <- time_by_N[,-c(1,3,5,7,8,9,10)]
+colnames(time_by_N) <- c('Cores',
+                         'N',
+                         'its',
+                         'Gradient')
+
+time_by_N$Gradient <- time_by_N$Gradient / time_by_N$its
+
+time_by_N <- time_by_N[,-3]
+#time_by_N <- time_by_N[,-3]
+#time_by_N <- time_by_N[,-4]
+
+
+# time_by_N <- time_by_N[time_by_N$Cores==1 |
+#                          time_by_N$Cores==2 |
+#                          time_by_N$Cores==4 |
+#                          time_by_N$Cores==6 |
+#                          time_by_N$Cores==8 |
+#                          time_by_N$Cores==10 |
+#                          time_by_N$Cores==0,]
+time_by_N$Cores <- factor(time_by_N$Cores)
+
+df <- time_by_N
+df$Seconds <- time_by_N$Gradient /1000
+df <- df[,-3]
+
+df$Cores <- revalue(df$Cores, c("0"="GPU"))
+df$Threads <- factor(df$Cores)
+df$Threads = factor(df$Cores,levels(df$Cores)[c(2:14,1)])
+
+
+gg4 <- ggplot(df,aes(x=N,y=Seconds,color=Threads)) +
+  geom_smooth(se=FALSE) +
+  scale_color_manual(values = colors)+
+  ylab('Seconds per Hessian evaluation') +
+  xlab('Number of observations')+
+  coord_cartesian(ylim=c(0,60),xlim=c(10000,85000)) +
+  #scale_x_continuous(labels=c("0","3.1e+06","1.3e+07","2.8e+07","5e+07"))+
+  theme_classic()  
+gg4
+
+ggsave('performFigure.pdf',grid.arrange(gg,gg2,gg3,gg4,ncol=2) , device = 'pdf', path = 'figures/',
        width = 9,height=4)
 
