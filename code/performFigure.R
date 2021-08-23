@@ -77,7 +77,7 @@ gg <- ggplot(df4, aes(x=Cores,y=Speedup)) +
   geom_text(aes(x=2.2,y=8,label="AVX"),
             inherit.aes = FALSE,show.legend = FALSE,
             check_overlap = TRUE,color=colors[9]) +
-  geom_text(aes(x=2.1,y=92,label="GPU"),
+  geom_text(aes(x=2.1,y=103,label="GPU"),
             inherit.aes = FALSE,show.legend = FALSE,
             check_overlap = TRUE,color=colors[12]) +
   geom_line(data=df2,aes(x=Cores,y=Speedup),inherit.aes = FALSE, color=colors[12],
