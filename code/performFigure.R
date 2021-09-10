@@ -43,7 +43,7 @@ bench_df$V10[bench_df$V2==0] <- bench_df$V10[bench_df$V2==0]
 colnames(bench_df) <- c("Threads", "SIMD", "Seconds")
 bench_df$Seconds <- bench_df$Seconds / 1000
 
-bench_df$SIMD <- c("Non-vectorized","SSE",rep("AVX",11),"GPU") #rep(c("Non-vectorized","SSE",rep("AVX",10),"GPU"),2)
+bench_df$SIMD <- c("Non-vectorized","SSE",rep("AVX",13),"GPU") #rep(c("Non-vectorized","SSE",rep("AVX",10),"GPU"),2)
 colnames(bench_df)[1] <- "Cores"
 df1 <- bench_df
 
@@ -55,8 +55,8 @@ df1$Speedup <- df1$Seconds[3] / df1$Seconds
 df1$Cores <- as.numeric(df1$Cores)
 df1$SIMD <- factor(df1$SIMD)
 df2 <- df1[df1$Cores==0,]
-df2 <- rbind(df2,df2,df2,df2,df2,df2,df2,df2,df2,df2,df2)
-df2$Cores <- c(1,2,4,6,8,10,12,14,16,18,20)
+df2 <- rbind(df2,df2,df2,df2,df2,df2,df2,df2,df2,df2,df2,df2,df2)
+df2$Cores <- c(1,2,4,14,24,34,44,54,64,74,84,94,104)
 df3 <- df1[df1$Cores!=0 & df1$SIMD != "AVX",]
 df4 <- df1[df1$Cores!=0 & df1$SIMD == "AVX",]
 
@@ -68,22 +68,22 @@ gg <- ggplot(df4, aes(x=Cores,y=Speedup)) +
   geom_line(color=colors[9],size=1.1) +
   geom_point(data=df3[1,],mapping = aes(x=Cores,y=Speedup),inherit.aes = FALSE,color=colors[1]) +
   geom_point(data=df3[2,],mapping = aes(x=Cores,y=Speedup),inherit.aes = FALSE,color=colors[5]) +
-  geom_text(aes(x=4.3,y=0.5,label="Non-vectorized"),
+  geom_text(aes(x=17,y=0.5,label="Non-vectorized"),
              inherit.aes = FALSE,show.legend = FALSE,
              check_overlap = TRUE,color=colors[1]) +
-  geom_text(aes(x=2.2,y=0.8,label="SSE"),
+  geom_text(aes(x=8,y=0.8,label="SSE"),
             inherit.aes = FALSE,show.legend = FALSE,
             check_overlap = TRUE,color=colors[5]) +
-  geom_text(aes(x=2.2,y=4,label="AVX"),
+  geom_text(aes(x=2.2,y=8,label="AVX"),
             inherit.aes = FALSE,show.legend = FALSE,
             check_overlap = TRUE,color=colors[9]) +
-  geom_text(aes(x=2.1,y=100,label="GPU"),
+  geom_text(aes(x=2.1,y=103,label="GPU"),
             inherit.aes = FALSE,show.legend = FALSE,
             check_overlap = TRUE,color=colors[12]) +
   geom_line(data=df2,aes(x=Cores,y=Speedup),inherit.aes = FALSE, color=colors[12],
             size=1.1) +
-  scale_x_continuous(breaks=c(1,2,4,6,8,10,12,14,16,18,20),
-                     labels = c("1","2",'4','6','8','10','12',"14","16","18","20"))+
+  scale_x_continuous(breaks=c(1,4,14,24,34,44,54,64,74,84,94,104),
+                     labels = c("1","4","14","24","34","44","54","64","74","84","94","104"))+
   scale_y_continuous(trans = "log2",breaks=c(0.5,1,2,4,8,16,32,64,128),
                      labels=c("1/2","1","2","4","8","16","32","64","128")) +
   ylab("Relative speedup at 25k observations") +
@@ -141,6 +141,72 @@ gg2 <- ggplot(df,aes(x=N,y=Seconds,color=Threads)) +
   theme_classic()  
 gg2
 
+
+df <- read.table("~/EBOVPhyloHawkes/output/report.txt", quote="\"", comment.char="")
+bench_df <- df[df$V4==25000,]
+bench_df$V11 <- bench_df$V11 / bench_df$V6
+bench_df <- bench_df[,c(2,3,11)]
+bench_df$V2[c(1,2)] <- 1
+
+bench_df$V10[bench_df$V2==0] <- bench_df$V10[bench_df$V2==0] 
+colnames(bench_df) <- c("Threads", "SIMD", "Seconds")
+bench_df$Seconds <- bench_df$Seconds / 1000
+
+bench_df$SIMD <- c("Non-vectorized","SSE",rep("AVX",13),"GPU") #rep(c("Non-vectorized","SSE",rep("AVX",10),"GPU"),2)
+colnames(bench_df)[1] <- "Cores"
+df1 <- bench_df
+
+df1$Speedup <- rep(0,dim(df1)[1])
+#df1$Seconds <- (df1$Seconds[1:(length(df1$Seconds)/2)] + df1$Seconds[(length(df1$Seconds)/2 + 1):length(df1$Seconds)]) /2
+#df1 <- df1[1:(length(df1$Seconds)/2),]
+df1$Speedup <- df1$Seconds[3] / df1$Seconds 
+
+df1$Cores <- as.numeric(df1$Cores)
+df1$SIMD <- factor(df1$SIMD)
+df2 <- df1[df1$Cores==0,]
+df2 <- rbind(df2,df2,df2,df2,df2,df2,df2,df2,df2,df2,df2,df2,df2)
+df2$Cores <- c(1,2,4,14,24,34,44,54,64,74,84,94,104)
+df3 <- df1[df1$Cores!=0 & df1$SIMD != "AVX",]
+df4 <- df1[df1$Cores!=0 & df1$SIMD == "AVX",]
+
+
+df4$SIMD <- droplevels.factor(df4$SIMD)
+colnames(df4)[2] <- "Method"
+
+gg3 <- ggplot(df4, aes(x=Cores,y=Speedup)) +
+  geom_line(color=colors[9],size=1.1) +
+  geom_point(data=df3[1,],mapping = aes(x=Cores,y=Speedup),inherit.aes = FALSE,color=colors[1]) +
+  geom_point(data=df3[2,],mapping = aes(x=Cores,y=Speedup),inherit.aes = FALSE,color=colors[5]) +
+  geom_text(aes(x=17,y=0.5,label="Non-vectorized"),
+            inherit.aes = FALSE,show.legend = FALSE,
+            check_overlap = TRUE,color=colors[1]) +
+  geom_text(aes(x=8,y=0.8,label="SSE"),
+            inherit.aes = FALSE,show.legend = FALSE,
+            check_overlap = TRUE,color=colors[5]) +
+  geom_text(aes(x=2.2,y=8,label="AVX"),
+            inherit.aes = FALSE,show.legend = FALSE,
+            check_overlap = TRUE,color=colors[9]) +
+  geom_text(aes(x=2.1,y=90,label="GPU"),
+            inherit.aes = FALSE,show.legend = FALSE,
+            check_overlap = TRUE,color=colors[12]) +
+  geom_line(data=df2,aes(x=Cores,y=Speedup),inherit.aes = FALSE, color=colors[12],
+            size=1.1) +
+  scale_x_continuous(breaks=c(1,4,14,24,34,44,54,64,74,84,94,104),
+                     labels = c("1","4","14","24","34","44","54","64","74","84","94","104"))+
+  scale_y_continuous(trans = "log2",breaks=c(0.5,1,2,4,8,16,32,64,128),
+                     labels=c("1/2","1","2","4","8","16","32","64","128")) +
+  ylab("Relative speedup at 25k observations") +
+  xlab("CPU threads") +
+  ggtitle("Hawkes log-likelihood Hessian calculations") +
+  theme_classic()
+gg3
+
+
+
+
+
+
+
 df <- read.table("~/EBOVPhyloHawkes/output/report.txt", quote="\"", comment.char="")
 
 
@@ -187,5 +253,12 @@ gg4 <- ggplot(df,aes(x=N,y=Seconds,color=Threads)) +
 gg4
 
 ggsave('performFigure.pdf',grid.arrange(gg,gg2,gg3,gg4,ncol=2) , device = 'pdf', path = 'figures/',
-       width = 9,height=4)
+       width = 11,height=8)
+
+
+system2(command = "pdfcrop", 
+        args    = c("~/EBOVPhyloHawkes/figures/performFigure.pdf", 
+                    "~/EBOVPhyloHawkes/figures/performFigure.pdf") 
+)
+
 

@@ -1,12 +1,20 @@
 setwd("~/EBOVPhyloHawkes/")
 
-# df <- readr::read_table2("output/Makona_1610_Hawkes_Locations_GLM.log",
-#                          skip = 3)
-df <- readRDS("output/thinnedSample.rds")
+df <- read_table2("output/final.log", skip = 3)
+#df <- df[,c(-1,-7)]
+df2 <- read_table2("output/final2.log", skip = 3)
+#df2 <- df2[,c(-1,-7)]
+df3 <- read_table2("output/final3a.log", skip = 3)
+#df3 <- df3[,c(-1,-7)]
+df4 <- read_table2("output/final3.log", skip = 3)
+df4 <- df4[df4$state <= 100500000, ]
+#df4 <- df4[,c(-1,-7)]
+
+df <- rbind(df,df2,df3,df4)
 
 d1 <- dim(df)[1]
 d2 <- dim(df)[2]
-df2 <- df[,9:d2]
+df2 <- df[,13:d2]
 
 lower <- apply( df2 , 2 , quantile , probs = 0.025)
 upper <- apply( df2 , 2 , quantile , probs = 0.975)
