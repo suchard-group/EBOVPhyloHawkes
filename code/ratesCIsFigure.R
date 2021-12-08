@@ -1,6 +1,7 @@
 setwd("~/EBOVPhyloHawkes/")
 
 library(ggplot2)
+library(readr)
 
 df <- read_table2("output/final.log", skip = 3)
 #df <- df[,c(-1,-7)]
@@ -21,7 +22,7 @@ df <- df[,13:d2]
 means <- apply( df , 2 , mean)
 lower <- apply( df , 2 , quantile , probs = 0.025)
 upper <- apply( df , 2 , quantile , probs = 0.975)
-signf <- 1>upper | 1 <lower
+signf <- -1>upper | 1 <lower
 df2 <- data.frame(means,lower,upper,Significant=signf)
 df2 <- df2[order(df2$lower,decreasing = TRUE),]
 df2$Virus <- factor(1:dim(df2)[1])
@@ -33,6 +34,8 @@ gg <- ggplot(df2,aes(x=Virus,y=means,color=Significant)) +
   geom_linerange(aes(ymin=lower,ymax=upper),alpha=0.7) + 
   scale_color_manual(values = c(pal[1],pal[100])) +
   geom_point(color="black") +
+  geom_hline(yintercept = 1,alpha=0.5) +
+  geom_hline(yintercept = -1,alpha=0.5) +
   ylab("Relative rate") + xlab("Viral observation") +
   ggtitle("95% Credible intervals and posterior means for 1,367 virus-specific rates") +
   theme_classic() +
