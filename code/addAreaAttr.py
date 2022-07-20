@@ -7,8 +7,8 @@ def main():
 	x = file_data[:]
 	file_data = numpy.genfromtxt("EBOVPhyloHawkes/data/Location_Data_2016-05-27.csv", usecols=0, skip_header=1, dtype=str,delimiter=",")
 	y = file_data[:]
-	with open("EBOVPhyloHawkes/xml/Makona_1610_Hawkes_v2.xml","r") as infile:
-		with open("EBOVPhyloHawkes/xml/Makona_1610_Hawkes_v3.xml","w") as outfile:
+	with open("EBOVPhyloHawkes/xml/working3.xml","r") as infile:
+		with open("EBOVPhyloHawkes/xml/working4.xml","w") as outfile:
 			lines=infile.readlines()
 			for i in range(0,len(lines)):
 				s = lines[i]

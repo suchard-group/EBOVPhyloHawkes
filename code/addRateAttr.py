@@ -3,8 +3,8 @@
 import argparse, os, re, numpy
 
 def main():
-	with open("EBOVPhyloHawkes/xml/Makona_1610_Hawkes_v3.xml","r") as infile:
-		with open("EBOVPhyloHawkes/xml/Makona_1610_Hawkes_v4.xml","w") as outfile:
+	with open("EBOVPhyloHawkes/xml/working6.xml","r") as infile:
+		with open("EBOVPhyloHawkes/xml/working7.xml","w") as outfile:
 			lines=infile.readlines()
 			for i in range(0,len(lines)):
 				s = lines[i]

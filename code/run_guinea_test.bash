@@ -1,0 +1,1 @@
+java -jar -Dhph.library.path=/home/andrew/hawkes/build -Dhph.required.flags=20 -Dhph.resource=1 /home/andrew/beast-mcmc/build/dist/beast.jar -beagle_gpu -beagle_order 1  -seed 666 -overwrite /home/andrew/EBOVPhyloHawkes/xml/working7.xml

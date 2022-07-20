@@ -9,8 +9,8 @@ def main():
 #	  file_data = numpy.genfromtxt("FluHawkes/data/xml_names_to_remove.csv", usecols=(0), skip_header=0, dtype=str)
 #	  print(file_data)
 #	  y = file_data[:]
-	with open("EBOVPhyloHawkes/xml/Makona_1610_cds_ig.xml","r") as infile:
-		with open("EBOVPhyloHawkes/xml/Makona_1610_Hawkes_v1.xml","w") as outfile:
+	with open("EBOVPhyloHawkes/xml/working4.xml","r") as infile:
+		with open("EBOVPhyloHawkes/xml/working5.xml","w") as outfile:
 			#k = 1
 			#for s in infile:
 			lines=infile.readlines()
