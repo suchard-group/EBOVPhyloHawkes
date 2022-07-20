@@ -4,13 +4,13 @@ library(readr)
 library(stringr)
 
 df1 <- read_csv("data/just_cases/Guinea-2016-05-11.csv")
-df2 <- read_csv("data/just_cases/Liberia-2016-05-11.csv")
-df3 <- read_csv("data/just_cases/SL-2016-05-11.csv")
+# df2 <- read_csv("data/just_cases/Liberia-2016-05-11.csv")
+# df3 <- read_csv("data/just_cases/SL-2016-05-11.csv")
 
-df <- rbind(df1,df2,df3)
-remove(df1)
-remove(df2)
-remove(df3)
+df <- df1#rbind(df1,df2,df3)
+# remove(df1)
+# remove(df2)
+# remove(df3)
 
 df <- df[df$`Indicator type`=="New",]
 df <- df[,c("Country","Location","Case definition","Ebola data source",

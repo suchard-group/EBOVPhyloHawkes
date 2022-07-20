@@ -5,8 +5,8 @@ import argparse, os, re, numpy
 def main():
 	file_data = numpy.genfromtxt("EBOVPhyloHawkes/data/unsequencedData.csv", skip_header=1, dtype=str,delimiter=",")
 	x = file_data[:]
-	with open("EBOVPhyloHawkes/xml/Makona_1610_Hawkes_Locations_Prior.xml","r") as infile:
-		with open("EBOVPhyloHawkes/xml/Makona_1610_Hawkes_All_Taxa.xml","w") as outfile:
+	with open("EBOVPhyloHawkes/xml/working2.xml","r") as infile:
+		with open("EBOVPhyloHawkes/xml/working3.xml","w") as outfile:
 			lines=infile.readlines()
 			for i in range(0,len(lines)):
 				s = lines[i]
