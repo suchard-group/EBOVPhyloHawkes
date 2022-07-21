@@ -2599,6 +2599,7 @@
 	</taxa>
 
 	<taxa id="taxa2">
+		<taxon idref="EBOV|KG35||GIN|Boke|2015-06-08"/>
 		<taxon idref="EBOV|EM_FORE_2015-2547||GIN|Forecariah|2015-09-26"/>
 		<taxon idref="EBOV|KG45||GIN|Boke|2015-06-09"/>
 		<taxon idref="EBOV|EM_074684|KR817124|GIN|Macenta|2014-08-14"/>
@@ -31029,6 +31030,7 @@
 	</taxa> <!-- end taxa2 -->
 
 	<taxa id="taxa3">
+		<taxon idref="EBOV|KG35||GIN|Boke|2015-06-08"/>
 		<taxon idref="EBOV|EM_FORE_2015-2547||GIN|Forecariah|2015-09-26"/>
 		<taxon idref="EBOV|KG45||GIN|Boke|2015-06-09"/>
 		<taxon idref="EBOV|EM_074684|KR817124|GIN|Macenta|2014-08-14"/>
@@ -31497,13 +31499,13 @@
     	<times>
     		<taxa idref="taxa2"/>
         </times>
-        <locations> <!-- 4373 = 364 + 4009 -->
-			<fastMatrixParameter id="locations" rows="2" columns="4373" test="true" signalComponents="false"/>
+        <locations> <!-- 4374 = 365 + 4009 -->
+			<fastMatrixParameter id="locations" rows="2" columns="4374" test="true" signalComponents="false"/>
 			<locationMean locationMeanTrait="centroid">
-				<fastMatrixParameter id="centroids" rows="2" columns="4373" test="true" signalComponents="false"/>
+				<fastMatrixParameter id="centroids" rows="2" columns="4374" test="true" signalComponents="false"/>
 			</locationMean>
 			<locationVariance locationVarianceTrait="km2" conversion="kmToDegree">
-				<fastMatrixParameter id="km2s" rows="2" columns="4373" test="true" signalComponents="false"/>
+				<fastMatrixParameter id="km2s" rows="2" columns="4374" test="true" signalComponents="false"/>
 			</locationVariance>
         </locations>
 		<jitter window="0.5 0.5" duplicatesOnly="false">
