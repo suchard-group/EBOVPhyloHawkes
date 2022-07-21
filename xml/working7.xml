@@ -31606,7 +31606,7 @@
  -->
 
 
-		<empiricalTreeDistributionOperator weight="100" metropolisHastings="true">
+		<empiricalTreeDistributionOperator weight="1" metropolisHastings="true">
 				<empiricalTreeDistributionModel idref="empiricalTreeModel"/>
 		</empiricalTreeDistributionOperator>
 	
@@ -31651,10 +31651,10 @@
 	</operators>
 
 	<!-- Define MCMC                                                             -->
-	<mcmc id="mcmc" chainLength="500100" fullEvaluation="0" autoOptimize="true" operatorAnalysis="Makona_1610_cds_ig.ops" autoOptimizeDelay="1000" smoothAcceptanceRatio="true">
+	<mcmc id="mcmc" chainLength="10000000" fullEvaluation="0" autoOptimize="true" operatorAnalysis="Makona_1610_cds_ig.ops" autoOptimizeDelay="1000" smoothAcceptanceRatio="true">
 		<posterior id="posterior">
 			<prior id="prior">
-				<gammaPrior shape="2.0" scale="2.0" offset="0.0">
+				<gammaPrior shape="7.5" scale="1" offset="0.0">
 					<parameter idref="precision"/>
 				</gammaPrior>
 <!-- 
@@ -31663,7 +31663,7 @@
 				</gammaPrior>
  -->
 
-				<gammaPrior shape="2" scale="2" offset="0.0">
+				<gammaPrior shape="1" scale="1" offset="0.0">
 					<parameter idref="sigmaXprec"/>
 				</gammaPrior>
 				<gammaPrior shape="1.0" scale="0.1" offset="0.0">
@@ -31674,9 +31674,9 @@
 				</gammaPrior>
 
 
-				<gammaPrior shape="2" scale="2" offset="0.0">
+				<uniformPrior lower="11.77" upper="182.5">
 					<parameter idref="omega"/>
-				</gammaPrior>
+				</uniformPrior>
 				<gammaPrior shape="2" scale="2" offset="0.0">
 					<parameter idref="theta"/>
 				</gammaPrior>
@@ -31686,7 +31686,6 @@
 				<normalPrior mean="0.0" stdev="10.0">
 					<parameter idref="glm.coefficient"/>
 				</normalPrior>
-
 				
 			</prior>
 			<likelihood id="likelihood">
