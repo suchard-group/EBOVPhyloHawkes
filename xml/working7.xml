@@ -31508,20 +31508,20 @@
 				<fastMatrixParameter id="km2s" rows="2" columns="4374" test="true" signalComponents="false"/>
 			</locationVariance>
         </locations>
-		<jitter window="0.5 0.5" duplicatesOnly="false">
+		<jitter window="0.01 0.01" duplicatesOnly="false">
 			<parameter idref="locations"/>
 		</jitter>
 		<sigmaXprec>
-            <parameter id="sigmaXprec" value="30.0" lower="0.0"/>
+            <parameter id="sigmaXprec" value="0.000001" lower="0.0"/>
         </sigmaXprec>
         <tauXprec>
-            <parameter id="tauXprec" value="1.0" lower="0.0"/>
+            <parameter id="tauXprec" value="0.0000001" lower="0.0"/>
         </tauXprec>
         <tauTprec>
             <parameter id="tauTprec" value="0.00000001" lower="0.0"/>
         </tauTprec>
         <omega>
-            <parameter id="omega" value="0.02438852" lower="0.0"/>
+            <parameter id="omega" value="20.0" lower="0.0"/>
         </omega>
         <theta>
             <parameter id="theta" value="1.0" lower="0.0"/>
